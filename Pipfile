@@ -8,6 +8,14 @@ yapf = "*"
 flake8 = "*"
 
 [packages]
+django = "*"
+django-cors-headers = "*"
+django-heroku = "*"
+dj-database-url = "*"
+gunicorn = "*"
+psycopg2 = "*"
+python-decouple = "*"
+whitenoise = "*"
 
 [requires]
 python_version = "3.8"
