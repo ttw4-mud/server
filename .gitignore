@@ -1,6 +1,6 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-**/.vscode
+**/.vscode/*
 !**/.vscode/*.code-snippets
 
 # Byte-compiled / optimized / DLL files
