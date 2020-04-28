@@ -48,7 +48,11 @@ INSTALLED_APPS = [
     "whitenoise",
     "corsheaders",
     "rest_framework",
-    "rest_framework.authtoken"
+    "rest_framework.authtoken",
+    "rest_auth",
+    "rest_auth.registration",
+    "allauth",
+    "allauth.account",
 ]
 
 MIDDLEWARE = [

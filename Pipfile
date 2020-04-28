@@ -17,6 +17,8 @@ psycopg2 = "*"
 python-decouple = "*"
 whitenoise = "*"
 django-rest-framework = "*"
+django-rest-auth = "*"
+django-allauth = "*"
 
 [requires]
 python_version = "3.8"
