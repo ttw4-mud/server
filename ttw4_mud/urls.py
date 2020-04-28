@@ -28,11 +28,7 @@ urlpatterns = [
         name="admin",
     ),
     path(
-        "api/auth/",
-        include("rest_auth.urls"),
-    ),
-    path(
-        "api/auth/signup",
-        include("rest_auth.registration.urls"),
+        "api/",
+        include("api.urls"),
     ),
 ]
