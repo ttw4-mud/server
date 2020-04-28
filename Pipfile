@@ -16,6 +16,7 @@ gunicorn = "*"
 psycopg2 = "*"
 python-decouple = "*"
 whitenoise = "*"
+django-rest-framework = "*"
 
 [requires]
 python_version = "3.8"
