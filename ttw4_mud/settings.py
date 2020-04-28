@@ -88,6 +88,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "ttw4_mud.wsgi.application"
 
+# the following makes `rest_auth` work?
+
+SITE_ID = 1
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 ############################################################
 #   DATABASE
 #   https://docs.djangoproject.com/en/3.0/ref/settings/#databases
