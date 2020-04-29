@@ -25,18 +25,22 @@ class Tile(models.Model):
     )
     to_n = models.ManyToManyField(
         "self",
+        blank=True,
         verbose_name="tile to the north",
     )
     to_s = models.ManyToManyField(
         "self",
+        blank=True,
         verbose_name="tile to the south",
     )
     to_e = models.ManyToManyField(
         "self",
+        blank=True,
         verbose_name="tile to the east",
     )
     to_w = models.ManyToManyField(
         "self",
+        blank=True,
         verbose_name="tile to the west",
     )
 
