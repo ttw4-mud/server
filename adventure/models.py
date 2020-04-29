@@ -70,14 +70,15 @@ class Tile(models.Model):
 
     def get_players_in_tile(self):
 
-        return [(p.user.username, p.uuid)
-                for p in Player.objects.filter(current_tile=self.id)]
+        return [p.as_dict() for p in Player.objects.filter(current_tile=self.id)]
 
     def get_other_players_in_tile(self, current_player_id):
 
-        return [(p.user.username, p.uuid)
-                for p in Player.objects.filter(current_tile=self.id)
-                if p.id != int(current_player_id)]
+        return [
+            p.as_dict()
+            for p in Player.objects.filter(current_tile=self.id)
+            if p.id != int(current_player_id)
+        ]
 
 
 class Player(models.Model):
@@ -98,6 +99,13 @@ class Player(models.Model):
         null=True,
         verbose_name="player's current tile",
     )
+
+    def as_dict(self):
+
+        return {
+            "uuid": self.uuid,
+            "name": self.user.username,
+        }
 
     def start_adventure(self):
 

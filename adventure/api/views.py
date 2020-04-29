@@ -22,10 +22,7 @@ directions = {
 def response_data(player, tile, errors=None):
 
     return {
-        "player": {
-            "uuid": player.uuid,
-            "name": player.user.username,
-        },
+        "player": player.as_dict(),
         "tile": {
             "name": tile.name,
             "description": tile.description,
