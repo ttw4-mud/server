@@ -50,3 +50,44 @@ def start(request):
         ),
         status=status.HTTP_202_ACCEPTED,
     )
+
+
+@csrf_exempt
+@api_view(["POST"])
+def move(request):
+
+    user = request.user
+    player = user.player
+    tile = player.get_current_tile()
+
+    requested_direction = request.data["direction"]
+
+    if requested_direction not in directions.keys():
+
+        return Response(
+            data=response_data(
+                player=player,
+                tile=tile,
+                errors=["You cannot move that way."],
+            ),
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    elif requested_direction == "n":
+        pass
+    elif requested_direction == "s":
+        pass
+    elif requested_direction == "e":
+        pass
+    elif requested_direction == "w":
+        pass
+    else:
+        print("HOW DID YOU GET HERE!?")
+
+    return Response(
+        data=response_data(
+            player=player,
+            tile=tile,
+        ),
+        status=status.HTTP_202_ACCEPTED,
+    )
