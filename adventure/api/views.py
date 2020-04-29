@@ -18,15 +18,10 @@ directions = {
     "w": "west",
 }
 
-@csrf_exempt
-@api_view(["POST"])
-def start(request):
 
-    user = request.user
-    player = user.player
-    tile = player.get_current_tile()
+def response_data(player, tile, errors=None):
 
-    data = {
+    return {
         "player": {
             "uuid": player.uuid,
             "name": player.user.username,
@@ -36,6 +31,22 @@ def start(request):
             "description": tile.description,
             "players": tile.get_players_in_tile(),
         },
+        "errors": errors,
     }
 
-    return Response(data=data, status=status.HTTP_202_ACCEPTED)
+
+@csrf_exempt
+@api_view(["POST"])
+def start(request):
+
+    user = request.user
+    player = user.player
+    tile = player.get_current_tile()
+
+    return Response(
+        data=response_data(
+            player=player,
+            tile=tile,
+        ),
+        status=status.HTTP_202_ACCEPTED,
+    )
