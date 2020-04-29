@@ -19,7 +19,9 @@ directions = {
 }
 
 
-def response_data(player, tile, errors=None):
+def response_data(player, errors=None):
+
+    tile = player.get_current_tile()
 
     return {
         "player": player.as_dict(),
@@ -38,13 +40,9 @@ def start(request):
 
     user = request.user
     player = user.player
-    tile = player.get_current_tile()
 
     return Response(
-        data=response_data(
-            player=player,
-            tile=tile,
-        ),
+        data=response_data(player=player),
         status=status.HTTP_202_ACCEPTED,
     )
 
@@ -65,7 +63,6 @@ def move(request):
         return Response(
             data=response_data(
                 player=player,
-                tile=tile,
                 errors=["You cannot move that way."],
             ),
             status=status.HTTP_400_BAD_REQUEST,
@@ -93,7 +90,6 @@ def move(request):
         return Response(
             data=response_data(
                 player=player,
-                tile=tile,
                 errors=["We done programmed this wrong."],
             ),
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -101,16 +97,11 @@ def move(request):
 
     if next_tile_id is not None:
 
-        next_tile = Tile.objects.get(id=next_tile_id)
-
         player.current_tile = next_tile_id
         player.save()
 
         return Response(
-            data=response_data(
-                player=player,
-                tile=next_tile,
-            ),
+            data=response_data(player=player),
             status=status.HTTP_202_ACCEPTED,
         )
 
@@ -119,7 +110,6 @@ def move(request):
         return Response(
             data=response_data(
                 player=player,
-                tile=tile,
                 errors=["You cannot move that way."],
             ),
             status=status.HTTP_400_BAD_REQUEST,
@@ -132,12 +122,10 @@ def speak(request):
 
     user = request.user
     player = user.player
-    tile = player.get_current_tile()
 
     return Response(
         data=response_data(
             player=player,
-            tile=tile,
             errors=["You can't do that yet."],
         ),
         status=status.HTTP_501_NOT_IMPLEMENTED,
