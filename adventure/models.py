@@ -62,25 +62,21 @@ class Tile(models.Model):
 
     def connect_to(self, direction, destination_tile):
 
-        destination_tile_id = destination_tile.id
-        # this might raise an exception -- we want that to happen
-        destination_tile = Tile.objects.get(id=destination_tile_id)
-
         if direction == "n":
 
-            self.to_n = destination_tile_id
+            self.to_n = destination_tile
 
         elif direction == "s":
 
-            self.to_s = destination_tile_id
+            self.to_s = destination_tile
 
         elif direction == "e":
 
-            self.to_e = destination_tile_id
+            self.to_e = destination_tile
 
         elif direction == "w":
 
-            self.to_w = destination_tile_id
+            self.to_w = destination_tile
 
         else:
 
