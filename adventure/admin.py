@@ -1,3 +1,10 @@
+############################################################
+
 from django.contrib import admin
 
-# Register your models here.
+from adventure.models import Tile, Player
+
+############################################################
+
+admin.site.register(Tile)
+admin.site.register(Player)
