@@ -90,15 +90,15 @@ class Tile(models.Model):
 
 class Player(models.Model):
 
-    user = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE,
-        verbose_name="player's user",
-    )
     uuid = models.UUIDField(
         default=uuid4,
         unique=True,
         verbose_name="player's uuid",
+    )
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name="player's user",
     )
     current_tile = models.ForeignKey(
         "adventure.Tile",
