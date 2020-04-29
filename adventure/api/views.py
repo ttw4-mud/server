@@ -56,33 +56,33 @@ def move(request):
     tile = player.get_current_tile()
 
     requested_direction = request.data["direction"]
-    next_tile_id = None
+    next_tile = None
 
     if requested_direction not in directions.keys():
 
         return Response(
             data=response_data(
                 player=player,
-                errors=["You cannot move that way."],
+                errors=["You can't move that way."],
             ),
             status=status.HTTP_400_BAD_REQUEST,
         )
 
     elif requested_direction == "n":
 
-        next_tile_id = tile.to_n
+        next_tile = tile.to_n
 
     elif requested_direction == "s":
 
-        next_tile_id = tile.to_s
+        next_tile = tile.to_s
 
     elif requested_direction == "e":
 
-        next_tile_id = tile.to_e
+        next_tile = tile.to_e
 
     elif requested_direction == "w":
 
-        next_tile_id = tile.to_w
+        next_tile = tile.to_w
 
     else:
 
@@ -95,9 +95,9 @@ def move(request):
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
 
-    if next_tile_id is not None:
+    if next_tile is not None:
 
-        player.current_tile = next_tile_id
+        player.current_tile = next_tile
         player.save()
 
         return Response(
@@ -110,7 +110,7 @@ def move(request):
         return Response(
             data=response_data(
                 player=player,
-                errors=["You cannot move that way."],
+                errors=["You can't move that way."],
             ),
             status=status.HTTP_400_BAD_REQUEST,
         )
@@ -126,7 +126,7 @@ def speak(request):
     return Response(
         data=response_data(
             player=player,
-            errors=["You can't do that yet."],
+            errors=["You can't speak yet."],
         ),
         status=status.HTTP_501_NOT_IMPLEMENTED,
     )
