@@ -23,25 +23,37 @@ class Tile(models.Model):
         default="DEFAULT DESCRIPTION",
         verbose_name="tile's description",
     )
-    to_n = models.ManyToManyField(
+    to_n = models.ForeignKey(
         "self",
+        on_delete=models.SET_NULL,
+        null=True,
         blank=True,
         verbose_name="tile to the north",
+        related_name="tile_to_n",
     )
-    to_s = models.ManyToManyField(
+    to_s = models.ForeignKey(
         "self",
+        on_delete=models.SET_NULL,
+        null=True,
         blank=True,
         verbose_name="tile to the south",
+        related_name="tile_to_s",
     )
-    to_e = models.ManyToManyField(
+    to_e = models.ForeignKey(
         "self",
+        on_delete=models.SET_NULL,
+        null=True,
         blank=True,
         verbose_name="tile to the east",
+        related_name="tile_to_e",
     )
-    to_w = models.ManyToManyField(
+    to_w = models.ForeignKey(
         "self",
+        on_delete=models.SET_NULL,
+        null=True,
         blank=True,
         verbose_name="tile to the west",
+        related_name="tile_to_w",
     )
 
     def __str__(self):
@@ -105,6 +117,7 @@ class Player(models.Model):
         Tile,
         on_delete=models.SET_NULL,
         null=True,
+        blank=True,
         verbose_name="player's current tile",
     )
 
