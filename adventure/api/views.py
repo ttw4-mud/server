@@ -58,6 +58,7 @@ def move(request):
     tile = player.get_current_tile()
 
     requested_direction = request.data["direction"]
+    next_tile_id = None
 
     if requested_direction not in directions.keys():
 
@@ -71,23 +72,58 @@ def move(request):
         )
 
     elif requested_direction == "n":
-        pass
-    elif requested_direction == "s":
-        pass
-    elif requested_direction == "e":
-        pass
-    elif requested_direction == "w":
-        pass
-    else:
-        print("HOW DID YOU GET HERE!?")
 
-    return Response(
-        data=response_data(
-            player=player,
-            tile=tile,
-        ),
-        status=status.HTTP_202_ACCEPTED,
-    )
+        next_tile_id = tile.to_n
+
+    elif requested_direction == "s":
+
+        next_tile_id = tile.to_s
+
+    elif requested_direction == "e":
+
+        next_tile_id = tile.to_e
+
+    elif requested_direction == "w":
+
+        next_tile_id = tile.to_w
+
+    else:
+
+        print("HOW DID YOU GET HERE!?")
+        return Response(
+            data=response_data(
+                player=player,
+                tile=tile,
+                errors=["We done programmed this wrong."],
+            ),
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
+
+    if next_tile_id is not None:
+
+        next_tile = Tile.objects.get(id=next_tile_id)
+
+        player.current_tile = next_tile_id
+        player.save()
+
+        return Response(
+            data=response_data(
+                player=player,
+                tile=next_tile,
+            ),
+            status=status.HTTP_202_ACCEPTED,
+        )
+
+    else:
+
+        return Response(
+            data=response_data(
+                player=player,
+                tile=tile,
+                errors=["You cannot move that way."],
+            ),
+            status=status.HTTP_400_BAD_REQUEST,
+        )
 
 
 @csrf_exempt
