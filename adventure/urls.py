@@ -4,6 +4,6 @@
 
 ############################################################
 
-app_name = "accounts"
+app_name = "adventure"
 
 urlpatterns = []

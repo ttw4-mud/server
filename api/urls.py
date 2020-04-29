@@ -11,4 +11,8 @@ urlpatterns = [
         "accounts/",
         include("accounts.api.urls"),
     ),
+    path(
+        "adventure/",
+        include("adventure.api.urls"),
+    ),
 ]
