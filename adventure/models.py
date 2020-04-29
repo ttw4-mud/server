@@ -44,6 +44,10 @@ class Tile(models.Model):
         verbose_name="tile to the west",
     )
 
+    def __str__(self):
+
+        return f"{self.name} [{self.id}]"
+
     def connect_to(self, direction, destination_tile):
 
         destination_tile_id = destination_tile.id
@@ -103,6 +107,10 @@ class Player(models.Model):
         null=True,
         verbose_name="player's current tile",
     )
+
+    def __str__(self):
+
+        return f"{self.user.username} [{self.id}]"
 
     def as_dict(self):
 
