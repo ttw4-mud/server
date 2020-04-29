@@ -31,4 +31,8 @@ urlpatterns = [
         "api/",
         include("api.urls"),
     ),
+    path(
+        "all-auth/",
+        include("allauth.urls"),
+    )
 ]
