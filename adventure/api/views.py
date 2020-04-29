@@ -19,13 +19,12 @@ directions = {
 }
 
 
-def response_data(player, tile, errors=None):
+def response_data(player, errors=None):
+
+    tile = player.get_current_tile()
 
     return {
-        "player": {
-            "uuid": player.uuid,
-            "name": player.user.username,
-        },
+        "player": player.as_dict(),
         "tile": {
             "name": tile.name,
             "description": tile.description,
@@ -41,13 +40,9 @@ def start(request):
 
     user = request.user
     player = user.player
-    tile = player.get_current_tile()
 
     return Response(
-        data=response_data(
-            player=player,
-            tile=tile,
-        ),
+        data=response_data(player=player),
         status=status.HTTP_202_ACCEPTED,
     )
 
@@ -61,36 +56,64 @@ def move(request):
     tile = player.get_current_tile()
 
     requested_direction = request.data["direction"]
+    next_tile = None
 
     if requested_direction not in directions.keys():
 
         return Response(
             data=response_data(
                 player=player,
-                tile=tile,
-                errors=["You cannot move that way."],
+                errors=["You can't move that way."],
             ),
             status=status.HTTP_400_BAD_REQUEST,
         )
 
     elif requested_direction == "n":
-        pass
-    elif requested_direction == "s":
-        pass
-    elif requested_direction == "e":
-        pass
-    elif requested_direction == "w":
-        pass
-    else:
-        print("HOW DID YOU GET HERE!?")
 
-    return Response(
-        data=response_data(
-            player=player,
-            tile=tile,
-        ),
-        status=status.HTTP_202_ACCEPTED,
-    )
+        next_tile = tile.to_n
+
+    elif requested_direction == "s":
+
+        next_tile = tile.to_s
+
+    elif requested_direction == "e":
+
+        next_tile = tile.to_e
+
+    elif requested_direction == "w":
+
+        next_tile = tile.to_w
+
+    else:
+
+        print("HOW DID YOU GET HERE!?")
+        return Response(
+            data=response_data(
+                player=player,
+                errors=["We done programmed this wrong."],
+            ),
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
+
+    if next_tile is not None:
+
+        player.current_tile = next_tile
+        player.save()
+
+        return Response(
+            data=response_data(player=player),
+            status=status.HTTP_202_ACCEPTED,
+        )
+
+    else:
+
+        return Response(
+            data=response_data(
+                player=player,
+                errors=["You can't move that way."],
+            ),
+            status=status.HTTP_400_BAD_REQUEST,
+        )
 
 
 @csrf_exempt
@@ -99,13 +122,11 @@ def speak(request):
 
     user = request.user
     player = user.player
-    tile = player.get_current_tile()
 
     return Response(
         data=response_data(
             player=player,
-            tile=tile,
-            errors=["You can't do that yet."],
+            errors=["You can't speak yet."],
         ),
         status=status.HTTP_501_NOT_IMPLEMENTED,
     )

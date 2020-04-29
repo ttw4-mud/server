@@ -2,7 +2,7 @@
 
 from django.urls import path
 
-from adventure import api
+from adventure.api import views as api_views
 
 ############################################################
 
@@ -11,14 +11,14 @@ app_name = "adventure_api"
 urlpatterns = [
     path(
         "start/",
-        api.views.start,
+        api_views.start,
     ),
     path(
         "move/",
-        api.views.move,
+        api_views.move,
     ),
     path(
         "speak/",
-        api.views.speak,
+        api_views.speak,
     ),
 ]
