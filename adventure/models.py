@@ -134,22 +134,24 @@ class Player(models.Model):
 
     def start_adventure(self):
 
-        if self.current_tile == 0:
+        if self.current_tile is None:
 
-            self.current_tile = Tile.objects.first().id
+            self.current_tile = Tile.objects.first()
             self.save()
+
+        return
 
     def get_current_tile(self):
 
         try:
 
-            return Tile.objects.get(id=self.current_tile)
+            return Tile.objects.get(id=self.current_tile.id)
 
         except Tile.DoesNotExist:
 
-            self.start()
+            self.start_adventure()
 
-            return self.tile()
+            return self.get_current_tile()
 
 
 @receiver(signals.post_save, sender=User)
@@ -160,8 +162,12 @@ def create_user_player(sender, instance, created, **kwargs):
         Player.objects.create(user=instance)
         Token.objects.create(user=instance)
 
+    return
+
 
 @receiver(signals.post_save, sender=User)
 def save_user_player(sender, instance, **kwargs):
 
     instance.player.save()
+
+    return
