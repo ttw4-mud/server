@@ -11,6 +11,12 @@ from adventure.models import Tile, Player
 
 ############################################################
 
+directions = {
+    "n": "north",
+    "s": "south",
+    "e": "east",
+    "w": "west",
+}
 
 @csrf_exempt
 @api_view(["POST"])
