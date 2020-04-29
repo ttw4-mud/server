@@ -91,3 +91,21 @@ def move(request):
         ),
         status=status.HTTP_202_ACCEPTED,
     )
+
+
+@csrf_exempt
+@api_view(["POST"])
+def speak(request):
+
+    user = request.user
+    player = user.player
+    tile = player.get_current_tile()
+
+    return Response(
+        data=response_data(
+            player=player,
+            tile=tile,
+            errors=["You can't do that yet."],
+        ),
+        status=status.HTTP_501_NOT_IMPLEMENTED,
+    )
