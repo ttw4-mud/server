@@ -4,7 +4,7 @@ from django.urls import path, include
 
 ############################################################
 
-app_name = "accounts"
+app_name = "accounts_api"
 
 urlpatterns = [
     path(
