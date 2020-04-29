@@ -23,29 +23,21 @@ class Tile(models.Model):
         default="DEFAULT DESCRIPTION",
         verbose_name="tile's description",
     )
-    to_n = models.ForeignKey(
-        "adventure.Tile",
-        on_delete=models.SET_NULL,
-        null=True,
-        verbose_name="tile to the north"
+    to_n = models.ManyToManyField(
+        "self",
+        verbose_name="tile to the north",
     )
-    to_s = models.ForeignKey(
-        "adventure.Tile",
-        on_delete=models.SET_NULL,
-        null=True,
-        verbose_name="tile to the south"
+    to_s = models.ManyToManyField(
+        "self",
+        verbose_name="tile to the south",
     )
-    to_e = models.ForeignKey(
-        "adventure.Tile",
-        on_delete=models.SET_NULL,
-        null=True,
-        verbose_name="tile to the east"
+    to_e = models.ManyToManyField(
+        "self",
+        verbose_name="tile to the east",
     )
-    to_w = models.ForeignKey(
-        "adventure.Tile",
-        on_delete=models.SET_NULL,
-        null=True,
-        verbose_name="tile to the west"
+    to_w = models.ManyToManyField(
+        "self",
+        verbose_name="tile to the west",
     )
 
     def connect_to(self, direction, destination_tile):
@@ -101,7 +93,7 @@ class Player(models.Model):
         verbose_name="player's user",
     )
     current_tile = models.ForeignKey(
-        "adventure.Tile",
+        Tile,
         on_delete=models.SET_NULL,
         null=True,
         verbose_name="player's current tile",
