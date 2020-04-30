@@ -10,6 +10,38 @@ from rest_framework.authtoken.models import Token
 
 ############################################################
 
+sides = {
+    "n": {
+        "name": "north",
+        "to": "n",
+        "from": "s",
+    },
+    "e": {
+        "name": "east",
+        "to": "e",
+        "from": "w",
+    },
+    "s": {
+        "name": "south",
+        "to": "s",
+        "from": "n",
+    },
+    "w": {
+        "name": "west",
+        "to": "w",
+        "from": "e",
+    },
+}
+
+corners = {
+    "nw": "north-west",
+    "ne": "north-east",
+    "se": "south-east",
+    "sw": "south-west",
+}
+
+############################################################
+
 
 class Tile(models.Model):
 
@@ -60,27 +92,47 @@ class Tile(models.Model):
 
         return f"{self.name} [{self.id}]"
 
-    def connect_to(self, direction, destination_tile):
+    def has_to_side(self, side):
 
-        if direction == "n":
+        return (getattr(self, f"to_{side}") is not None)
 
-            self.to_n = destination_tile
+    def as_dict(self):
 
-        elif direction == "s":
+        tile_dict = {
+            "name": self.name,
+            "description": self.description,
+        }
 
-            self.to_s = destination_tile
+        for side in sides.keys():
+            tile_dict[f"to_{side}"] = self.has_to_side(side)
 
-        elif direction == "e":
+        tile_dict["players"] = self.get_players_in_tile()
 
-            self.to_e = destination_tile
+        return tile_dict
 
-        elif direction == "w":
+    def connect_to(self, to_side, to_tile):
 
-            self.to_w = destination_tile
+        if to_side not in sides.keys():
+
+            raise Exception("connect_to.InvalidSide")
 
         else:
 
-            raise Exception("connect_to.InvalidDirection")
+            side = sides[to_side]["to"]
+            setattr(self, f"to_{side}", to_tile)
+
+        self.save()
+
+    def connect_from(self, from_side, from_tile):
+
+        if from_side not in sides.keys():
+
+            raise Exception("connect_from.InvalidSide")
+
+        else:
+
+            side = sides[from_side]["from"]
+            setattr(self, f"to_{side}", from_tile)
 
         self.save()
 
@@ -123,10 +175,12 @@ class Player(models.Model):
 
     def as_dict(self):
 
-        return {
+        player_dict = {
             "uuid": self.uuid,
             "name": self.user.username,
         }
+
+        return player_dict
 
     def start_adventure(self):
 

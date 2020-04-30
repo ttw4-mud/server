@@ -1,35 +1,30 @@
 ############################################################
 
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth.models import User
 
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from adventure.models import Tile, Player
+from adventure.models import sides
 
 ############################################################
 
-directions = {
-    "n": "north",
-    "s": "south",
-    "e": "east",
-    "w": "west",
-}
 
+def response_data(player, messages=None, errors=None):
 
-def response_data(player, errors=None):
+    if messages is None:
+        messages = []
+
+    if errors is None:
+        errors = []
 
     tile = player.get_current_tile()
 
     return {
         "player": player.as_dict(),
-        "tile": {
-            "name": tile.name,
-            "description": tile.description,
-            "players": tile.get_players_in_tile(),
-        },
+        "tile": tile.as_dict(),
+        "messages": messages,
         "errors": errors,
     }
 
@@ -42,7 +37,12 @@ def start(request):
     player = user.player
 
     return Response(
-        data=response_data(player=player),
+        data=response_data(
+            player=player,
+            messages=[
+                "You just started your adventure.",
+            ],
+        ),
         status=status.HTTP_202_ACCEPTED,
     )
 
@@ -58,42 +58,27 @@ def move(request):
     requested_direction = request.data["direction"]
     next_tile = None
 
-    if requested_direction not in directions.keys():
+    if requested_direction not in sides.keys():
 
         return Response(
             data=response_data(
                 player=player,
-                errors=["You can't move that way."],
+                messages=[
+                    f"You can't move in the direction \"{requested_direction}\".",
+                ],
+                errors=[
+                    f"You can't move in the direction \"{requested_direction}\".",
+                ],
             ),
             status=status.HTTP_400_BAD_REQUEST,
         )
 
-    elif requested_direction == "n":
-
-        next_tile = tile.to_n
-
-    elif requested_direction == "s":
-
-        next_tile = tile.to_s
-
-    elif requested_direction == "e":
-
-        next_tile = tile.to_e
-
-    elif requested_direction == "w":
-
-        next_tile = tile.to_w
-
     else:
 
-        print("HOW DID YOU GET HERE!?")
-        return Response(
-            data=response_data(
-                player=player,
-                errors=["We done programmed this wrong."],
-            ),
-            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-        )
+        side = sides[requested_direction]["to"]
+        next_tile = getattr(tile, f"to_{side}")
+
+    requested_direction_name = sides[requested_direction]["name"]
 
     if next_tile is not None:
 
@@ -101,7 +86,12 @@ def move(request):
         player.save()
 
         return Response(
-            data=response_data(player=player),
+            data=response_data(
+                player=player,
+                messages=[
+                    f"You move {requested_direction_name}.",
+                ],
+            ),
             status=status.HTTP_202_ACCEPTED,
         )
 
@@ -110,7 +100,12 @@ def move(request):
         return Response(
             data=response_data(
                 player=player,
-                errors=["You can't move that way."],
+                messages=[
+                    f"You can't move {requested_direction_name}.",
+                ],
+                errors=[
+                    f"You can't move {requested_direction_name}.",
+                ],
             ),
             status=status.HTTP_400_BAD_REQUEST,
         )
@@ -126,7 +121,12 @@ def speak(request):
     return Response(
         data=response_data(
             player=player,
-            errors=["You can't speak yet."],
+            messages=[
+                "You can't speak yet.",
+            ],
+            errors=[
+                "You can't speak yet.",
+            ],
         ),
         status=status.HTTP_501_NOT_IMPLEMENTED,
     )
