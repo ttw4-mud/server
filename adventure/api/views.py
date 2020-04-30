@@ -7,16 +7,9 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from adventure.models import Tile, Player
+from adventure.models import Tile, Player, sides
 
 ############################################################
-
-directions = {
-    "n": "north",
-    "s": "south",
-    "e": "east",
-    "w": "west",
-}
 
 
 def response_data(player, errors=None):
@@ -58,7 +51,7 @@ def move(request):
     requested_direction = request.data["direction"]
     next_tile = None
 
-    if requested_direction not in directions.keys():
+    if requested_direction not in sides.keys():
 
         return Response(
             data=response_data(

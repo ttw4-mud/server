@@ -10,6 +10,22 @@ from rest_framework.authtoken.models import Token
 
 ############################################################
 
+sides = {
+    "n": "north",
+    "e": "east",
+    "s": "south",
+    "w": "west",
+}
+
+corners = {
+    "nw": "north-west",
+    "ne": "north-east",
+    "se": "south-east",
+    "sw": "south-west",
+}
+
+############################################################
+
 
 class Tile(models.Model):
 
@@ -60,27 +76,31 @@ class Tile(models.Model):
 
         return f"{self.name} [{self.id}]"
 
-    def connect_to(self, direction, destination_tile):
+    def connect_to(self, to_side, to_tile):
 
-        if direction == "n":
+        if to_side not in sides.keys():
 
-            self.to_n = destination_tile
+            raise Exception("connect_to.InvalidSide")
 
-        elif direction == "s":
+        elif to_side == "n":
 
-            self.to_s = destination_tile
+            self.to_n = to_tile
 
-        elif direction == "e":
+        elif to_side == "s":
 
-            self.to_e = destination_tile
+            self.to_s = to_tile
 
-        elif direction == "w":
+        elif to_side == "e":
 
-            self.to_w = destination_tile
+            self.to_e = to_tile
+
+        elif to_side == "w":
+
+            self.to_w = to_tile
 
         else:
 
-            raise Exception("connect_to.InvalidDirection")
+            raise Exception("connect_to.ProgrammerError")
 
         self.save()
 
