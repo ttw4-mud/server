@@ -197,7 +197,7 @@ class Player(models.Model):
 
             return Tile.objects.get(id=self.current_tile.id)
 
-        except Tile.DoesNotExist:
+        except (Tile.DoesNotExist, AttributeError):
 
             self.start_adventure()
 
