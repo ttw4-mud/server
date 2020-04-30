@@ -92,6 +92,10 @@ class Tile(models.Model):
 
         return f"{self.name} [{self.id}]"
 
+    def has_to_side(self, side):
+
+        return (getattr(self, f"to_{side}") is not None)
+
     def connect_to(self, to_side, to_tile):
 
         if to_side not in sides.keys():
