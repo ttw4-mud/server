@@ -1,13 +1,12 @@
 ############################################################
 
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth.models import User
 
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from adventure.models import Tile, Player, sides
+from adventure.models import sides
 
 ############################################################
 
