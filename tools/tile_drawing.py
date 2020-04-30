@@ -47,9 +47,19 @@ def pixel_grid_of_tile(tile):
     return pixel_grid
 
 
+def pixel_grid_of_tile_list(tile_list):
+
+    return [pixel_grid_of_tile(tile) for tile in tile_list]
+
+
 def pixel_rows_of_tile(tile):
 
     pixel_grid = pixel_grid_of_tile(tile)
     pixel_rows = ["".join(pixel_grid_row) for pixel_grid_row in pixel_grid]
 
     return pixel_rows
+
+
+def pixel_rows_of_tile_list(tile_list):
+
+    return [pixel_rows_of_tile(tile) for tile in tile_list]
