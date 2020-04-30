@@ -1,5 +1,4 @@
 ############################################################
-
 ############################################################
 
 pixels = {
@@ -49,7 +48,14 @@ def pixel_grid_of_tile(tile):
 
 def pixel_grid_of_tile_list(tile_list):
 
-    return [pixel_grid_of_tile(tile) for tile in tile_list]
+    pixel_grid_list = [pixel_grid_of_tile(tile) for tile in tile_list]
+
+    pixel_grid = [[]] * 3
+    for i in range(len(pixel_grid_list)):
+        for r in range(len(pixel_grid_list[i])):
+            pixel_grid[r] += pixel_grid_list[i][r]
+
+    return pixel_grid
 
 
 def pixel_rows_of_tile(tile):
@@ -62,4 +68,11 @@ def pixel_rows_of_tile(tile):
 
 def pixel_rows_of_tile_list(tile_list):
 
-    return [pixel_rows_of_tile(tile) for tile in tile_list]
+    pixel_rows_list = [pixel_rows_of_tile(tile) for tile in tile_list]
+
+    pixel_rows = [""] * 3
+    for i in range(len(pixel_rows_list)):
+        for r in range(len(pixel_rows_list[i])):
+            pixel_rows[r] += pixel_rows_list[i][r]
+
+    return pixel_rows
