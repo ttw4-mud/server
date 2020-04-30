@@ -18,6 +18,8 @@ def create_naive_grid_world(n_rows, n_cols):
 
         for c in range(n_cols):
 
+            tile = tile_grid[r][c]
+
             # randomly choose to connect to adjacent tiles
             # need to connect BOTH ways
             # if tile in first row, can't go north
@@ -25,7 +27,8 @@ def create_naive_grid_world(n_rows, n_cols):
             # if tile in last row, can't go south
             # if tile in last col, can't go east
             # each tile must have at least 1 connection
-            pass
+
+            tile.save()
 
     # PRINT TILES
 
