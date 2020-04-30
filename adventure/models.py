@@ -105,15 +105,16 @@ class Tile(models.Model):
 
         self.save()
 
-            self.to_e = to_tile
+    def connect_from(self, from_side, from_tile):
 
-        elif to_side == "w":
+        if from_side not in sides.keys():
 
-            self.to_w = to_tile
+            raise Exception("connect_from.InvalidSide")
 
         else:
 
-            raise Exception("connect_to.ProgrammerError")
+            side = sides[from_side]["from"]
+            setattr(self, f"to_{side}", from_tile)
 
         self.save()
 
