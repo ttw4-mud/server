@@ -57,32 +57,10 @@ def move(request):
             status=status.HTTP_400_BAD_REQUEST,
         )
 
-    elif requested_direction == "n":
-
-        next_tile = tile.to_n
-
-    elif requested_direction == "s":
-
-        next_tile = tile.to_s
-
-    elif requested_direction == "e":
-
-        next_tile = tile.to_e
-
-    elif requested_direction == "w":
-
-        next_tile = tile.to_w
-
     else:
 
-        print("HOW DID YOU GET HERE!?")
-        return Response(
-            data=response_data(
-                player=player,
-                errors=["We done programmed this wrong."],
-            ),
-            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-        )
+        side = sides[requested_direction]["to"]
+        next_tile = getattr(tile, f"to_{side}")
 
     if next_tile is not None:
 
