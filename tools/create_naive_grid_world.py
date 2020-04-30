@@ -32,4 +32,15 @@ def create_naive_grid_world(n_rows, n_cols):
 
     print()
 
+    # START ALL PLAYERS
+
+    players = Player.objects.all()
+
+    for p in players:
+
+        p.current_tile = tile_grid[0][0]
+        p.save()
+
+    #
+
     return
