@@ -1,4 +1,7 @@
 ############################################################
+
+from tools.iter_tools import list_join
+
 ############################################################
 
 pixels = {
@@ -76,3 +79,18 @@ def pixel_rows_of_tile_list(tile_list):
             pixel_rows[r] += pixel_rows_list[i][r]
 
     return pixel_rows
+
+
+def draw_tile(tile):
+
+    return "\n".join(pixel_rows_of_tile(tile))
+
+
+def draw_tile_row(tile_row):
+
+    return "\n".join(pixel_rows_of_tile_list(tile_row))
+
+
+def draw_tile_grid(tile_grid):
+
+    return "\n".join([draw_tile_row(tile_row) for tile_row in tile_grid])
