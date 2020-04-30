@@ -12,13 +12,20 @@ from adventure.models import Tile, Player, sides
 ############################################################
 
 
-def response_data(player, errors=None):
+def response_data(player, messages=None, errors=None):
+
+    if messages is None:
+        messages = []
+
+    if errors is None:
+        errors = []
 
     tile = player.get_current_tile()
 
     return {
         "player": player.as_dict(),
         "tile": tile.as_dict(),
+        "messages": messages,
         "errors": errors,
     }
 
@@ -31,7 +38,12 @@ def start(request):
     player = user.player
 
     return Response(
-        data=response_data(player=player),
+        data=response_data(
+            player=player,
+            messages=[
+                "You just started your adventure.",
+            ],
+        ),
         status=status.HTTP_202_ACCEPTED,
     )
 
@@ -52,7 +64,12 @@ def move(request):
         return Response(
             data=response_data(
                 player=player,
-                errors=["You can't move that way."],
+                messages=[
+                    f"You can't move in the direction \"{requested_direction}\".",
+                ],
+                errors=[
+                    f"You can't move in the direction \"{requested_direction}\".",
+                ],
             ),
             status=status.HTTP_400_BAD_REQUEST,
         )
@@ -62,13 +79,20 @@ def move(request):
         side = sides[requested_direction]["to"]
         next_tile = getattr(tile, f"to_{side}")
 
+    requested_direction_name = sides[requested_direction]["name"]
+
     if next_tile is not None:
 
         player.current_tile = next_tile
         player.save()
 
         return Response(
-            data=response_data(player=player),
+            data=response_data(
+                player=player,
+                messages=[
+                    f"You move {requested_direction_name}.",
+                ],
+            ),
             status=status.HTTP_202_ACCEPTED,
         )
 
@@ -77,7 +101,12 @@ def move(request):
         return Response(
             data=response_data(
                 player=player,
-                errors=["You can't move that way."],
+                messages=[
+                    f"You can't move {requested_direction_name}.",
+                ],
+                errors=[
+                    f"You can't move {requested_direction_name}.",
+                ],
             ),
             status=status.HTTP_400_BAD_REQUEST,
         )
@@ -93,7 +122,12 @@ def speak(request):
     return Response(
         data=response_data(
             player=player,
-            errors=["You can't speak yet."],
+            messages=[
+                "You can't speak yet.",
+            ],
+            errors=[
+                "You can't speak yet.",
+            ],
         ),
         status=status.HTTP_501_NOT_IMPLEMENTED,
     )
