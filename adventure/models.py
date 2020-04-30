@@ -96,6 +96,19 @@ class Tile(models.Model):
 
         return (getattr(self, f"to_{side}") is not None)
 
+    def as_dict(self):
+
+        data = {
+            "name": self.name,
+            "description": self.description,
+            "players": self.get_players_in_tile(),
+        }
+
+        for side in sides.keys():
+            data[f"to_{side}"] = self.has_to_side(side)
+
+        return data
+
     def connect_to(self, to_side, to_tile):
 
         if to_side not in sides.keys():
