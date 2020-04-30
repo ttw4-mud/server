@@ -98,16 +98,17 @@ class Tile(models.Model):
 
     def as_dict(self):
 
-        data = {
+        tile_dict = {
             "name": self.name,
             "description": self.description,
-            "players": self.get_players_in_tile(),
         }
 
         for side in sides.keys():
-            data[f"to_{side}"] = self.has_to_side(side)
+            tile_dict[f"to_{side}"] = self.has_to_side(side)
 
-        return data
+        tile_dict["players"] = self.get_players_in_tile()
+
+        return tile_dict
 
     def connect_to(self, to_side, to_tile):
 
@@ -174,10 +175,12 @@ class Player(models.Model):
 
     def as_dict(self):
 
-        return {
+        player_dict = {
             "uuid": self.uuid,
             "name": self.user.username,
         }
+
+        return player_dict
 
     def start_adventure(self):
 
