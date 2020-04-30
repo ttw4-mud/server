@@ -11,10 +11,26 @@ from rest_framework.authtoken.models import Token
 ############################################################
 
 sides = {
-    "n": "north",
-    "e": "east",
-    "s": "south",
-    "w": "west",
+    "n": {
+        "name": "north",
+        "to": "n",
+        "from": "s",
+    },
+    "e": {
+        "name": "east",
+        "to": "e",
+        "from": "w",
+    },
+    "s": {
+        "name": "south",
+        "to": "s",
+        "from": "n",
+    },
+    "w": {
+        "name": "west",
+        "to": "w",
+        "from": "e",
+    },
 }
 
 corners = {
@@ -82,15 +98,12 @@ class Tile(models.Model):
 
             raise Exception("connect_to.InvalidSide")
 
-        elif to_side == "n":
+        else:
 
-            self.to_n = to_tile
+            side = sides[to_side]["to"]
+            setattr(self, f"to_{side}", to_tile)
 
-        elif to_side == "s":
-
-            self.to_s = to_tile
-
-        elif to_side == "e":
+        self.save()
 
             self.to_e = to_tile
 
