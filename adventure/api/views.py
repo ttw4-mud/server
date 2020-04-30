@@ -3,7 +3,13 @@
 from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import (
+    api_view,
+    authentication_classes,
+    permission_classes,
+)
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from adventure.models import sides
@@ -31,10 +37,14 @@ def response_data(player, messages=None, errors=None):
 
 @csrf_exempt
 @api_view(["POST"])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def start(request):
 
     user = request.user
     player = user.player
+
+    player.start_adventure()
 
     return Response(
         data=response_data(
@@ -49,6 +59,8 @@ def start(request):
 
 @csrf_exempt
 @api_view(["POST"])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def move(request):
 
     user = request.user
@@ -113,6 +125,8 @@ def move(request):
 
 @csrf_exempt
 @api_view(["POST"])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def speak(request):
 
     user = request.user
