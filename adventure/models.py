@@ -111,6 +111,9 @@ class Tile(models.Model):
         return tile_dict
 
     def connect_to(self, to_side, to_tile):
+        """
+        Connect this tile to another tile in the "to" direction.
+        """
 
         if to_side not in sides.keys():
 
@@ -124,6 +127,9 @@ class Tile(models.Model):
         self.save()
 
     def connect_from(self, from_side, from_tile):
+        """
+        Connect this tile from another tile in the "from" direction.
+        """
 
         if from_side not in sides.keys():
 
@@ -135,6 +141,19 @@ class Tile(models.Model):
             setattr(self, f"to_{side}", from_tile)
 
         self.save()
+
+    @staticmethod
+    def connect_from_to(direction, from_tile, to_tile):
+        """
+        Connect from one tile to another tile in the given direction.
+        """
+
+        from_tile.connect_to(direction, to_tile)
+        from_tile.save()
+        to_tile.connect_from(direction, from_tile)
+        to_tile.save()
+
+        return
 
     def get_players_in_tile(self):
 
