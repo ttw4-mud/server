@@ -18,11 +18,7 @@ def response_data(player, errors=None):
 
     return {
         "player": player.as_dict(),
-        "tile": {
-            "name": tile.name,
-            "description": tile.description,
-            "players": tile.get_players_in_tile(),
-        },
+        "tile": tile.as_dict(),
         "errors": errors,
     }
 
