@@ -21,7 +21,8 @@ def has_any_connected_sides(tile, row=None, col=None, grid_size=(None, None)):
     """
     Test if a tile has _any_ connected sides.
     """
-    pass
+
+    return any(get_connected_sides(tile, row, col, grid_size))
 
 
 def get_locked_sides(tile, row, col, grid_size):
