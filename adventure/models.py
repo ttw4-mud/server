@@ -9,7 +9,11 @@ from django.contrib.auth.models import User
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 
-from tools.tile_drawing import pixel_grid_of_tile, pixel_rows_of_tile
+from tools.tile_drawing import (
+    pixel_grid_of_tile,
+    pixel_rows_of_tile,
+    draw_tile,
+)
 
 ############################################################
 
@@ -112,6 +116,7 @@ class Tile(models.Model):
         tile_dict["drawing"] = {
             "grid": pixel_grid_of_tile(self, show_player=True),
             "rows": pixel_rows_of_tile(self, show_player=True),
+            "string": draw_tile(self, show_player=True),
         }
 
         tile_dict["players"] = self.get_players_in_tile()
