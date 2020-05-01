@@ -71,3 +71,34 @@ def generate_new_sides(tile, row, col, grid_size):
                  for side in locked_sides]
 
     return new_sides
+
+
+def always_generate_new_sides(tile, row, col, grid_size, min_new_sides=1):
+    """
+    Generate a list of which sides to newly connect.
+    Always generates new sides (`min_new_sides`, default 1)
+    ... _unless_ too few unlocked sides are available.
+    Currently locked sides cannot be connected.
+    True -> to be connected
+    False -> not to be connected
+    """
+
+    count_all_sides = len(sides.keys())
+    count_locked_sides = sum(get_locked_sides(tile, row, col, grid_size))
+    max_new_sides = count_all_sides - count_locked_sides
+
+    # adjust min_new_sides if there are too few unlocked sides available
+    min_new_sides = min_new_sides if min_new_sides < max_new_sides else max_new_sides
+
+    # keep trying until min_new_sides is satisfied
+    new_sides = None
+    count_new_sides = None
+
+    while count_new_sides is None or count_new_sides < min_new_sides:
+        # try to generate enough new sides
+        new_sides = generate_new_sides(tile, row, col, grid_size)
+        # we can't count the already locked sides as "new"
+        count_new_sides = sum(new_sides) - count_locked_sides
+
+    # at this point, min_new_sides should be satisifed
+    return new_sides
