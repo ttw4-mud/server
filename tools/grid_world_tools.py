@@ -171,7 +171,7 @@ def always_generate_new_side_bools(tile, row, col, grid_size, min_new_sides=1):
         # try to generate enough new sides
         new_side_bools = generate_new_side_bools(tile, row, col, grid_size)
         # we can't count the already connected sides as "new"
-        count_new_sides = sum(new_side_bools) - count_connected_sides
+        count_new_sides = sum(new_side_bools)
         # DEBUG
         print(f"----------------------------------------")
         print(f"connected_side_bools: {connected_side_bools}")
