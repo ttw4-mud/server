@@ -8,31 +8,43 @@ pixels = {
     "none": "·",
     "wall": "█",
     "open": " ",
+    "player": "#",
 }
 
 
-def pixel_grid_of_no_tile():
+def pixel_grid_of_no_tile(show_player=False):
 
-    return [[pixels["none"] for c in range(3)] for r in range(3)]
+    pixel_grid = [[pixels["none"] for c in range(3)] for r in range(3)]
+
+    if show_player:
+        pixel_grid[1][1] = pixels["player"]
+
+    return pixel_grid
 
 
-def pixel_grid_of_walled_tile():
-    return [[(pixels["wall"] if r != 1 or c != 1 else pixels["open"])
-             for c in range(3)]
-            for r in range(3)]
+def pixel_grid_of_walled_tile(show_player=False):
+
+    pixel_grid = [[(pixels["wall"] if r != 1 or c != 1 else pixels["open"])
+                   for c in range(3)]
+                  for r in range(3)]
+
+    if show_player:
+        pixel_grid[1][1] = pixels["player"]
+
+    return pixel_grid
 
 
-def pixel_grid_of_tile(tile):
+def pixel_grid_of_tile(tile, show_player=False):
 
     pixel_grid = None
 
     if tile is None:
 
-        pixel_grid = pixel_grid_of_no_tile()
+        pixel_grid = pixel_grid_of_no_tile(show_player=show_player)
 
     else:
 
-        pixel_grid = pixel_grid_of_walled_tile()
+        pixel_grid = pixel_grid_of_walled_tile(show_player=show_player)
 
         if tile.has_to_side("n"):
             pixel_grid[0][1] = pixels["open"]
@@ -61,9 +73,9 @@ def pixel_grid_of_tile_list(tile_list):
     return pixel_grid
 
 
-def pixel_rows_of_tile(tile):
+def pixel_rows_of_tile(tile, show_player=False):
 
-    pixel_grid = pixel_grid_of_tile(tile)
+    pixel_grid = pixel_grid_of_tile(tile, show_player=show_player)
     pixel_rows = ["".join(pixel_grid_row) for pixel_grid_row in pixel_grid]
 
     return pixel_rows
@@ -81,9 +93,9 @@ def pixel_rows_of_tile_list(tile_list):
     return pixel_rows
 
 
-def draw_tile(tile):
+def draw_tile(tile, show_player=False):
 
-    return "\n".join(pixel_rows_of_tile(tile))
+    return "\n".join(pixel_rows_of_tile(tile, show_player=show_player))
 
 
 def draw_tile_row(tile_row):
