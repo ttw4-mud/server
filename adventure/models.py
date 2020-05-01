@@ -9,6 +9,8 @@ from django.contrib.auth.models import User
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 
+from tools.tile_drawing import pixel_grid_of_tile, pixel_rows_of_tile
+
 ############################################################
 
 sides = odict({
@@ -106,6 +108,9 @@ class Tile(models.Model):
 
         for side in sides.keys():
             tile_dict[f"to_{side}"] = self.has_to_side(side)
+
+        tile_dict["pixel_grid"] = pixel_grid_of_tile(self)
+        tile_dict["pixel_rows"] = pixel_rows_of_tile(self)
 
         tile_dict["players"] = self.get_players_in_tile()
 
