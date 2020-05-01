@@ -75,7 +75,7 @@ def pixel_grid_of_tile_list(tile_list):
 
 def pixel_rows_of_tile(tile, show_player=False):
 
-    pixel_grid = pixel_grid_of_tile(tile)
+    pixel_grid = pixel_grid_of_tile(tile, show_player=show_player)
     pixel_rows = ["".join(pixel_grid_row) for pixel_grid_row in pixel_grid]
 
     return pixel_rows
