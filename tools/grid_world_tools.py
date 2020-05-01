@@ -8,7 +8,7 @@ from adventure.models import sides
 ############################################################
 
 
-def translate_side_bools_to_side_keys(side_bools):
+def translate_side_bools_to_sides(side_bools):
     """
     Translate list of True/False sides to keys of True sides.
     """
@@ -40,7 +40,7 @@ def get_connected_sides(tile, row=None, col=None, grid_size=(None, None)):
     Get a list of connected sides of the tile.
     """
 
-    return translate_side_bools_to_side_keys(
+    return translate_side_bools_to_sides(
         get_connected_side_bools(tile, row, col, grid_size)
     )
 
@@ -92,7 +92,7 @@ def get_locked_sides(tile, row, col, grid_size):
     Get a list of locked sides of the tile. Currently connected sides are locked.
     """
 
-    return translate_side_bools_to_side_keys(
+    return translate_side_bools_to_sides(
         get_locked_side_bools(tile, row, col, grid_size)
     )
 
@@ -126,7 +126,7 @@ def generate_new_sides(tile, row, col, grid_size):
     Currently locked sides cannot be connected.
     """
 
-    return translate_side_bools_to_side_keys(
+    return translate_side_bools_to_sides(
         generate_new_side_bools(tile, row, col, grid_size)
     )
 
@@ -157,7 +157,7 @@ def always_generate_new_side_bools(tile, row, col, grid_size, min_new_sides=1):
     debug_message = "\n".join(
         f"########################################",
         f"tile.id: {tile.id}",
-        f"count_of_locked_sides: {translate_side_bools_to_side_keys(locked_side_bools)}",
+        f"count_of_locked_sides: {translate_side_bools_to_sides(locked_side_bools)}",
         f"count_of_locked_sides: {count_of_locked_sides}",
         f"max_new_sides: {max_new_sides}",
         f"min_new_sides: {min_new_sides}",
@@ -176,7 +176,7 @@ def always_generate_new_side_bools(tile, row, col, grid_size, min_new_sides=1):
         # DEBUG
         debug_message = "\n".join(
             f"----------------------------------------",
-            f"new_sides: {translate_side_bools_to_side_keys(new_side_bools)}",
+            f"new_sides: {translate_side_bools_to_sides(new_side_bools)}",
             f"count_of_new_sides:   {sum(new_side_bools)}",
         )
         print(debug_message)
@@ -193,7 +193,7 @@ def always_generate_new_sides(tile, row, col, grid_size, min_new_sides=1):
     Currently locked sides cannot be connected.
     """
 
-    return translate_side_bools_to_side_keys(
+    return translate_side_bools_to_sides(
         always_generate_new_side_bools(tile, row, col, grid_size)
     )
 
