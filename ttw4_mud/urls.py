@@ -19,9 +19,16 @@ Including another URLconf
 from django.urls import path, include
 from django.contrib import admin
 
+from ttw4_mud.views import hello
+
 ############################################################
 
 urlpatterns = [
+    path(
+        "",
+        hello,
+        name="hello",
+    ),
     path(
         "admin/",
         admin.site.urls,
