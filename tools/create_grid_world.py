@@ -6,8 +6,20 @@ from tools.tile_drawing import draw_tile_grid
 
 ############################################################
 
+DEFAULT_N_ROWS = 8
+DEFAULT_N_COLS = 8
+DEFAULT_NEW_SIDE_ODDS = (1, 2)
+DEFAULT_MIN_NEW_SIDES = 1
 
-def create_grid_world(n_rows, n_cols, min_new_sides=1):
+############################################################
+
+
+def create_grid_world(
+    n_rows=DEFAULT_N_ROWS,
+    n_cols=DEFAULT_N_COLS,
+    new_side_odds=DEFAULT_NEW_SIDE_ODDS,
+    min_new_sides=DEFAULT_MIN_NEW_SIDES,
+):
 
     # DEFINE TILES
 
@@ -33,6 +45,7 @@ def create_grid_world(n_rows, n_cols, min_new_sides=1):
                 row,
                 col,
                 (n_rows, n_cols),
+                odds=new_side_odds,
                 min_new_sides=min_new_sides,
             )
 
