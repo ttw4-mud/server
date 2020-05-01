@@ -1,5 +1,6 @@
 ############################################################
 
+from collections import OrderedDict as odict
 from uuid import uuid4
 
 from django.db import models
@@ -10,7 +11,7 @@ from rest_framework.authtoken.models import Token
 
 ############################################################
 
-sides = {
+sides = odict({
     "n": {
         "name": "north",
         "to": "n",
@@ -31,14 +32,14 @@ sides = {
         "to": "w",
         "from": "e",
     },
-}
+})
 
-corners = {
+corners = odict({
     "nw": "north-west",
     "ne": "north-east",
     "se": "south-east",
     "sw": "south-west",
-}
+})
 
 ############################################################
 
