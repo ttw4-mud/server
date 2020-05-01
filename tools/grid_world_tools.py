@@ -169,3 +169,30 @@ def always_generate_new_sides(tile, row, col, grid_size, min_new_sides=1):
     return translate_side_bools_to_side_keys(
         always_generate_new_side_bools(tile, row, col, grid_size)
     )
+
+
+#-----------------------------------------------------------
+
+
+def get_offsets_for_to_side(to_side):
+
+    row_offset = 0
+    col_offset = 0
+
+    if to_side not in sides.keys():
+        # this _shouldn't_ happen...
+        raise Exception("ProgrammerError")
+
+    elif to_side == "n":
+        row_offset = -1
+
+    elif to_side == "s":
+        row_offset = +1
+
+    elif to_side == "w":
+        col_offset = -1
+
+    elif to_side == "e":
+        col_offset = +1
+
+    return (row_offset, col_offset)
