@@ -13,7 +13,8 @@ def get_connected_sides(tile, row, col):
     True -> connected
     False -> not connected
     """
-    pass
+
+    return [tile.has_to_side(side) for side in sides.keys()]
 
 
 def get_locked_sides(tile, row, col):
