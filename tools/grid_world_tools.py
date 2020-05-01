@@ -7,6 +7,23 @@ from adventure.models import sides
 
 ############################################################
 
+DEFAULT_NEW_SIDE_ODDS__YES = 1
+DEFAULT_NEW_SIDE_ODDS__NO = 3
+
+
+def random_new_side_bool(
+    odds_yes=DEFAULT_NEW_SIDE_ODDS__YES,
+    odds_no=DEFAULT_NEW_SIDE_ODDS__NO,
+):
+
+    odds_total = odds_yes + odds_no
+    rand = random.randrange(odds_total)
+
+    return (rand < odds_yes)
+
+
+############################################################
+
 
 def translate_side_bools_to_sides(side_bools):
     """
