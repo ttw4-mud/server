@@ -2,7 +2,7 @@
 
 import random
 
-from adventure.models import sides, Tile
+from adventure.models import sides
 
 ############################################################
 
@@ -17,6 +17,9 @@ def translate_side_bools_to_side_keys(side_bools):
     ]
 
 
+#-----------------------------------------------------------
+
+
 def get_connected_side_bools(tile, row=None, col=None, grid_size=(None, None)):
     """
     Get a list of connected sides of the tile.
@@ -27,12 +30,25 @@ def get_connected_side_bools(tile, row=None, col=None, grid_size=(None, None)):
     return [tile.has_to_side(side) for side in sides.keys()]
 
 
+def get_connected_sides(tile, row=None, col=None, grid_size=(None, None)):
+    """
+    Get a list of connected sides of the tile.
+    """
+
+    return translate_side_bools_to_side_keys(
+        get_connected_side_bools(tile, row, col, grid_size)
+    )
+
+
 def has_any_connected_sides(tile, row=None, col=None, grid_size=(None, None)):
     """
     Test if a tile has _any_ connected sides.
     """
 
     return any(get_connected_side_bools(tile, row, col, grid_size))
+
+
+#-----------------------------------------------------------
 
 
 def get_locked_side_bools(tile, row, col, grid_size):
@@ -64,6 +80,19 @@ def get_locked_side_bools(tile, row, col, grid_size):
     return locked_sides
 
 
+def get_locked_sides(tile, row, col, grid_size):
+    """
+    Get a list of locked sides of the tile. Currently connected sides are locked.
+    """
+
+    return translate_side_bools_to_side_keys(
+        get_locked_side_bools(tile, row, col, grid_size)
+    )
+
+
+#-----------------------------------------------------------
+
+
 def generate_new_side_bools(tile, row, col, grid_size):
     """
     Generate a list of which sides to newly connect.
@@ -81,6 +110,21 @@ def generate_new_side_bools(tile, row, col, grid_size):
                  for side in locked_sides]
 
     return new_sides
+
+
+def generate_new_sides(tile, row, col, grid_size):
+    """
+    Generate a list of which sides to newly connect.
+    May generate no new connections.
+    Currently locked sides cannot be connected.
+    """
+
+    return translate_side_bools_to_side_keys(
+        generate_new_side_bools(tile, row, col, grid_size)
+    )
+
+
+#-----------------------------------------------------------
 
 
 def always_generate_new_side_bools(tile, row, col, grid_size, min_new_sides=1):
@@ -112,3 +156,16 @@ def always_generate_new_side_bools(tile, row, col, grid_size, min_new_sides=1):
 
     # at this point, min_new_sides should be satisifed
     return new_sides
+
+
+def always_generate_new_sides(tile, row, col, grid_size, min_new_sides=1):
+    """
+    Generate a list of which sides to newly connect.
+    Always generates new sides (`min_new_sides`, default 1)
+    ... _unless_ too few unlocked sides are available.
+    Currently locked sides cannot be connected.
+    """
+
+    return translate_side_bools_to_side_keys(
+        always_generate_new_side_bools(tile, row, col, grid_size)
+    )
