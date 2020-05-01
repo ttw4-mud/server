@@ -1,5 +1,6 @@
 ############################################################
 
+from collections import OrderedDict as odict
 from uuid import uuid4
 
 from django.db import models
@@ -10,7 +11,7 @@ from rest_framework.authtoken.models import Token
 
 ############################################################
 
-sides = {
+sides = odict({
     "n": {
         "name": "north",
         "to": "n",
@@ -31,14 +32,14 @@ sides = {
         "to": "w",
         "from": "e",
     },
-}
+})
 
-corners = {
+corners = odict({
     "nw": "north-west",
     "ne": "north-east",
     "se": "south-east",
     "sw": "south-west",
-}
+})
 
 ############################################################
 
@@ -111,6 +112,9 @@ class Tile(models.Model):
         return tile_dict
 
     def connect_to(self, to_side, to_tile):
+        """
+        Connect this tile to another tile in the "to" direction.
+        """
 
         if to_side not in sides.keys():
 
@@ -122,8 +126,12 @@ class Tile(models.Model):
             setattr(self, f"to_{side}", to_tile)
 
         self.save()
+        return
 
     def connect_from(self, from_side, from_tile):
+        """
+        Connect this tile from another tile in the "from" direction.
+        """
 
         if from_side not in sides.keys():
 
@@ -135,6 +143,18 @@ class Tile(models.Model):
             setattr(self, f"to_{side}", from_tile)
 
         self.save()
+        return
+
+    @staticmethod
+    def connect_from_to(direction, from_tile, to_tile):
+        """
+        Connect from one tile to another tile in the given direction.
+        """
+
+        from_tile.connect_to(direction, to_tile)
+        to_tile.connect_from(direction, from_tile)
+
+        return
 
     def get_players_in_tile(self):
 

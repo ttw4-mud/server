@@ -1,4 +1,8 @@
+############################################################
+
 from adventure.models import Player, Tile
+
+############################################################
 
 
 def create_simple_world():
@@ -56,9 +60,9 @@ def create_simple_world():
     tile_narrow.connect_to("n", tile_treasure)
     tile_treasure.connect_to("s", tile_narrow)
 
-    players = Player.objects.all()
-
     # START ALL PLAYERS
+
+    players = Player.objects.all()
 
     for p in players:
 
