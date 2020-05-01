@@ -117,7 +117,14 @@ def get_locked_sides(tile, row, col, grid_size):
 #-----------------------------------------------------------
 
 
-def generate_new_side_bools(tile, row, col, grid_size):
+def generate_new_side_bools(
+    tile,
+    row,
+    col,
+    grid_size,
+    odds_yes=DEFAULT_NEW_SIDE_ODDS__YES,
+    odds_no=DEFAULT_NEW_SIDE_ODDS__NO,
+):
     """
     Generate a list of which sides to newly connect.
     May generate no new connections.
@@ -130,13 +137,24 @@ def generate_new_side_bools(tile, row, col, grid_size):
 
     # if side is locked (True): no new side (False)
     # else: generate random True or False
-    new_side_bools = [(False if side is True else random.choice((True, False)))
-                      for side in locked_side_bools]
+    new_side_bools = [(
+        False if side is True else random_new_side_bool(
+            odds_yes=odds_yes,
+            odds_no=odds_no,
+        )
+    ) for side in locked_side_bools]
 
     return new_side_bools
 
 
-def generate_new_sides(tile, row, col, grid_size):
+def generate_new_sides(
+    tile,
+    row,
+    col,
+    grid_size,
+    odds_yes=DEFAULT_NEW_SIDE_ODDS__YES,
+    odds_no=DEFAULT_NEW_SIDE_ODDS__NO,
+):
     """
     Generate a list of which sides to newly connect.
     May generate no new connections.
@@ -144,14 +162,24 @@ def generate_new_sides(tile, row, col, grid_size):
     """
 
     return translate_side_bools_to_sides(
-        generate_new_side_bools(tile, row, col, grid_size)
+        generate_new_side_bools(
+            tile, row, col, grid_size, odds_yes=odds_yes, odds_no=odds_no
+        )
     )
 
 
 #-----------------------------------------------------------
 
 
-def always_generate_new_side_bools(tile, row, col, grid_size, min_new_sides=1):
+def always_generate_new_side_bools(
+    tile,
+    row,
+    col,
+    grid_size,
+    odds_yes=DEFAULT_NEW_SIDE_ODDS__YES,
+    odds_no=DEFAULT_NEW_SIDE_ODDS__NO,
+    min_new_sides=1,
+):
     """
     Generate a list of which sides to newly connect.
     Always generates new sides (`min_new_sides`, default 1)
@@ -186,7 +214,9 @@ def always_generate_new_side_bools(tile, row, col, grid_size, min_new_sides=1):
 
     while sum(new_side_bools) < min_new_sides:
         # try to generate enough new sides
-        new_side_bools = generate_new_side_bools(tile, row, col, grid_size)
+        new_side_bools = generate_new_side_bools(
+            tile, row, col, grid_size, odds_yes=odds_yes, odds_no=odds_no
+        )
 
         # # DEBUG
         # debug_message = "\n".join(
@@ -200,7 +230,15 @@ def always_generate_new_side_bools(tile, row, col, grid_size, min_new_sides=1):
     return new_side_bools
 
 
-def always_generate_new_sides(tile, row, col, grid_size, min_new_sides=1):
+def always_generate_new_sides(
+    tile,
+    row,
+    col,
+    grid_size,
+    odds_yes=DEFAULT_NEW_SIDE_ODDS__YES,
+    odds_no=DEFAULT_NEW_SIDE_ODDS__NO,
+    min_new_sides=1,
+):
     """
     Generate a list of which sides to newly connect.
     Always generates new sides (`min_new_sides`, default 1)
@@ -209,7 +247,9 @@ def always_generate_new_sides(tile, row, col, grid_size, min_new_sides=1):
     """
 
     return translate_side_bools_to_sides(
-        always_generate_new_side_bools(tile, row, col, grid_size)
+        always_generate_new_side_bools(
+            tile, row, col, grid_size, odds_yes=odds_yes, odds_no=odds_no
+        )
     )
 
 
