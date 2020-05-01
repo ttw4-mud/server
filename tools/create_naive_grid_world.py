@@ -6,8 +6,18 @@ from tools.tile_drawing import draw_tile_grid
 
 ############################################################
 
+DEFAULT_N_ROWS = 8
+DEFAULT_N_COLS = 8
+DEFAULT_NEW_SIDE_ODDS = (1, 2)
 
-def create_naive_grid_world(n_rows, n_cols):
+############################################################
+
+
+def create_naive_grid_world(
+    n_rows=DEFAULT_N_ROWS,
+    n_cols=DEFAULT_N_COLS,
+    new_side_odds=DEFAULT_NEW_SIDE_ODDS,
+):
 
     # DEFINE TILES
 
@@ -28,7 +38,13 @@ def create_naive_grid_world(n_rows, n_cols):
             from_tile = tile_grid[row][col]
 
             # randomly choose to connect to adjacent tiles
-            new_sides = generate_new_sides(from_tile, row, col, (n_rows, n_cols))
+            new_sides = generate_new_sides(
+                from_tile,
+                row,
+                col,
+                (n_rows, n_cols),
+                odds=new_side_odds,
+            )
 
             # need to connect BOTH ways
             for new_side in new_sides:
