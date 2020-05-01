@@ -95,7 +95,7 @@ def pixel_rows_of_tile_list(tile_list):
 
 def draw_tile(tile, show_player=False):
 
-    return "\n".join(pixel_rows_of_tile(tile, show_player=False))
+    return "\n".join(pixel_rows_of_tile(tile, show_player=show_player))
 
 
 def draw_tile_row(tile_row):
