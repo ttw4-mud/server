@@ -60,4 +60,12 @@ def generate_new_sides(tile, row, col, grid_size):
     True -> to be connected
     False -> not to be connected
     """
-    pass
+
+    locked_sides = get_locked_sides(tile, row, col, grid_size)
+
+    # if side is locked (True): no new side (False)
+    # else: generate random True or False
+    new_sides = [(False if side is True else random.choice((True, False)))
+                 for side in locked_sides]
+
+    return new_sides
