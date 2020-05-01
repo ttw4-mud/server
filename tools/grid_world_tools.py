@@ -145,15 +145,19 @@ def always_generate_new_side_bools(tile, row, col, grid_size, min_new_sides=1):
     """
 
     count_all_sides = len(sides.keys())
-    count_locked_sides = sum(get_locked_side_bools(tile, row, col, grid_size))
-    max_new_sides = count_all_sides - count_locked_sides
+
+    # remember locked sides
+    locked_side_bools = get_locked_side_bools(tile, row, col, grid_size)
+    count_locked_sides = sum(locked_side_bools)
 
     # adjust min_new_sides if there are too few unlocked sides available
+    max_new_sides = count_all_sides - count_locked_sides
     min_new_sides = min_new_sides if min_new_sides < max_new_sides else max_new_sides
 
     # DEBUG
     print(f"########################################")
     print(f"tile.id: {tile.id}")
+    print(f"locked_sides_bools: {locked_side_bools}")
     print(f"count_locked_sides: {count_locked_sides}")
     print(f"max_new_sides: {max_new_sides}")
     print(f"min_new_sides: {min_new_sides}")
