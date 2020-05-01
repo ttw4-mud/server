@@ -4,7 +4,7 @@ from tools.iter_tools import list_join
 
 ############################################################
 
-pixels = {
+PIXELS = {
     "none": "·",
     "wall": "█",
     "open": " ",
@@ -14,22 +14,22 @@ pixels = {
 
 def pixel_grid_of_no_tile(show_player=False):
 
-    pixel_grid = [[pixels["none"] for c in range(3)] for r in range(3)]
+    pixel_grid = [[PIXELS["none"] for c in range(3)] for r in range(3)]
 
     if show_player:
-        pixel_grid[1][1] = pixels["player"]
+        pixel_grid[1][1] = PIXELS["player"]
 
     return pixel_grid
 
 
 def pixel_grid_of_walled_tile(show_player=False):
 
-    pixel_grid = [[(pixels["wall"] if r != 1 or c != 1 else pixels["open"])
+    pixel_grid = [[(PIXELS["wall"] if r != 1 or c != 1 else PIXELS["open"])
                    for c in range(3)]
                   for r in range(3)]
 
     if show_player:
-        pixel_grid[1][1] = pixels["player"]
+        pixel_grid[1][1] = PIXELS["player"]
 
     return pixel_grid
 
@@ -47,16 +47,16 @@ def pixel_grid_of_tile(tile, show_player=False):
         pixel_grid = pixel_grid_of_walled_tile(show_player=show_player)
 
         if tile.has_to_side("n"):
-            pixel_grid[0][1] = pixels["open"]
+            pixel_grid[0][1] = PIXELS["open"]
 
         if tile.has_to_side("e"):
-            pixel_grid[1][2] = pixels["open"]
+            pixel_grid[1][2] = PIXELS["open"]
 
         if tile.has_to_side("s"):
-            pixel_grid[2][1] = pixels["open"]
+            pixel_grid[2][1] = PIXELS["open"]
 
         if tile.has_to_side("w"):
-            pixel_grid[1][0] = pixels["open"]
+            pixel_grid[1][0] = PIXELS["open"]
 
     return pixel_grid
 
