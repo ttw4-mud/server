@@ -32,6 +32,27 @@ def get_locked_sides(tile, row, col, grid_size):
     False -> not locked
     """
 
+    # currently connected sides are necessarily locked
+    locked_sides = get_connected_sides(tile, row, col, grid_size)
+
+    # if tile in first row, can't go north
+    if row <= 0:
+        locked_sides[sides.index("n")] = True
+
+        # if tile in last row, can't go south
+    if row >= (grid_size[0] - 1):
+        locked_sides[sides.index("s")] = True
+
+    # if tile in first col, can't go west
+    if col <= 0:
+        locked_sides[sides.index("w")] = True
+
+    # if tile in last col, can't go east
+    if col >= (grid_size[1] - 1):
+        locked_sides[sides.index("e")] = True
+
+    return locked_sides
+
 
 def generate_new_sides(tile, row, col, grid_size):
     """
