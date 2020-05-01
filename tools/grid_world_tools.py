@@ -56,7 +56,9 @@ def get_locked_sides(tile, row, col, grid_size):
 
 def generate_new_sides(tile, row, col, grid_size):
     """
-    Generate a list of which sides to connect. Currently locked sides cannot be connected.
+    Generate a list of which sides to newly connect.
+    May generate no new connections.
+    Currently locked sides cannot be connected.
     True -> to be connected
     False -> not to be connected
     """
