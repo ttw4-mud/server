@@ -2,16 +2,9 @@
 
 import random
 
-from adventure.models import sides
+from adventure.models import sides, Tile
 
 ############################################################
-
-
-def connect_from_to(direction, from_tile, to_tile):
-    """
-    Connect from one tile to another tile in the given direction.
-    """
-    pass
 
 
 def get_connected_sides(tile, row, col):
