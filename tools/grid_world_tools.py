@@ -7,6 +7,16 @@ from adventure.models import sides, Tile
 ############################################################
 
 
+def translate_side_bools_to_side_keys(side_bools):
+    """
+    Translate list of True/False sides to keys of True sides.
+    """
+
+    return [
+        sides.keys()[i] for (i, side_bool) in enumerate(side_bools) if side_bool is True
+    ]
+
+
 def get_connected_side_bools(tile, row=None, col=None, grid_size=(None, None)):
     """
     Get a list of connected sides of the tile.
