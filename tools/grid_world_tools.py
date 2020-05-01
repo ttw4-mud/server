@@ -144,9 +144,10 @@ def always_generate_new_side_bools(tile, row, col, grid_size, min_new_sides=1):
     False -> not to be connected
     """
 
+    # remember starting conditions
     count_all_sides = len(sides.keys())
-
-    # remember locked sides
+    connected_side_bools = get_connected_side_bools(tile, row, col, grid_size)
+    count_connected_sides = sum(connected_side_bools)
     locked_side_bools = get_locked_side_bools(tile, row, col, grid_size)
     count_locked_sides = sum(locked_side_bools)
 
@@ -157,8 +158,8 @@ def always_generate_new_side_bools(tile, row, col, grid_size, min_new_sides=1):
     # DEBUG
     print(f"########################################")
     print(f"tile.id: {tile.id}")
-    print(f"locked_sides_bools: {locked_side_bools}")
-    print(f"count_locked_sides: {count_locked_sides}")
+    print(f"count_connected_sides: {count_connected_sides}")
+    print(f"count_locked_sides:    {count_locked_sides}")
     print(f"max_new_sides: {max_new_sides}")
     print(f"min_new_sides: {min_new_sides}")
 
@@ -169,12 +170,14 @@ def always_generate_new_side_bools(tile, row, col, grid_size, min_new_sides=1):
     while count_new_sides is None or count_new_sides < min_new_sides:
         # try to generate enough new sides
         new_side_bools = generate_new_side_bools(tile, row, col, grid_size)
-        # we can't count the already locked sides as "new"
-        count_new_sides = sum(new_side_bools) - count_locked_sides
+        # we can't count the already connected sides as "new"
+        count_new_sides = sum(new_side_bools) - count_connected_sides
         # DEBUG
         print(f"----------------------------------------")
-        print(f"new_sides_bools: {new_side_bools}")
-        print(f"count_new_sides: {count_new_sides}")
+        print(f"connected_side_bools: {connected_side_bools}")
+        print(f"locked_side_bools:    {locked_side_bools}")
+        print(f"new_side_bools:       {new_side_bools}")
+        print(f"count_new_sides:      {count_new_sides}")
 
     # at this point, min_new_sides should be satisifed
     return new_side_bools
