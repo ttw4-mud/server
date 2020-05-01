@@ -109,8 +109,8 @@ class Tile(models.Model):
         for side in sides.keys():
             tile_dict[f"to_{side}"] = self.has_to_side(side)
 
-        tile_dict["pixel_grid"] = pixel_grid_of_tile(self)
-        tile_dict["pixel_rows"] = pixel_rows_of_tile(self)
+        tile_dict["pixel_grid"] = pixel_grid_of_tile(self, show_player=True)
+        tile_dict["pixel_rows"] = pixel_rows_of_tile(self, show_player=True)
 
         tile_dict["players"] = self.get_players_in_tile()
 
