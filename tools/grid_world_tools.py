@@ -153,33 +153,31 @@ def always_generate_new_side_bools(tile, row, col, grid_size, min_new_sides=1):
     max_new_sides = count_of_all_sides - count_of_locked_sides
     min_new_sides = min_new_sides if min_new_sides < max_new_sides else max_new_sides
 
-    # DEBUG
-    debug_message = "\n".join(
-        f"########################################",
-        f"tile.id: {tile.id}",
-        f"count_of_locked_sides: {translate_side_bools_to_sides(locked_side_bools)}",
-        f"count_of_locked_sides: {count_of_locked_sides}",
-        f"max_new_sides: {max_new_sides}",
-        f"min_new_sides: {min_new_sides}",
-    )
-    print(debug_message)
+    # # DEBUG
+    # debug_message = "\n".join(
+    #     f"########################################",
+    #     f"tile.id: {tile.id}",
+    #     f"count_of_locked_sides: {translate_side_bools_to_sides(locked_side_bools)}",
+    #     f"count_of_locked_sides: {count_of_locked_sides}",
+    #     f"max_new_sides: {max_new_sides}",
+    #     f"min_new_sides: {min_new_sides}",
+    # )
+    # print(debug_message)
 
     # keep trying until min_new_sides is satisfied
     new_side_bools = [False] * count_of_all_sides
-    count_of_new_sides = None
 
-    while count_of_new_sides is None or count_of_new_sides < min_new_sides:
+    while sum(new_side_bools) < min_new_sides:
         # try to generate enough new sides
         new_side_bools = generate_new_side_bools(tile, row, col, grid_size)
-        # we can't count the already connected sides as "new"
-        count_of_new_sides = sum(new_side_bools)
-        # DEBUG
-        debug_message = "\n".join(
-            f"----------------------------------------",
-            f"new_sides: {translate_side_bools_to_sides(new_side_bools)}",
-            f"count_of_new_sides:   {sum(new_side_bools)}",
-        )
-        print(debug_message)
+
+        # # DEBUG
+        # debug_message = "\n".join(
+        #     f"----------------------------------------",
+        #     f"new_sides: {translate_side_bools_to_sides(new_side_bools)}",
+        #     f"count_of_new_sides:   {sum(new_side_bools)}",
+        # )
+        # print(debug_message)
 
     # at this point, min_new_sides should be satisifed
     return new_side_bools
