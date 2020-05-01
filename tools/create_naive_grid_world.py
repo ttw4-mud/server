@@ -1,6 +1,7 @@
 ############################################################
 
-from adventure.models import sides, Tile, Player
+from adventure.models import Tile, Player
+from tools.grid_world_tools import generate_new_sides, get_offsets_for_to_side
 from tools.tile_drawing import draw_tile_grid
 
 ############################################################
@@ -14,21 +15,24 @@ def create_naive_grid_world(n_rows, n_cols):
 
     # CONNECTION TILES
 
-    for r in range(n_rows):
+    for row in range(n_rows):
 
-        for c in range(n_cols):
+        for col in range(n_cols):
 
-            tile = tile_grid[r][c]
+            from_tile = tile_grid[row][col]
 
             # randomly choose to connect to adjacent tiles
-            # need to connect BOTH ways
-            # if tile in first row, can't go north
-            # if tile in first col, can't go west
-            # if tile in last row, can't go south
-            # if tile in last col, can't go east
-            # each tile must have at least 1 connection
+            new_sides = generate_new_sides(from_tile, row, col, (n_rows, n_cols))
 
-            tile.save()
+            # need to connect BOTH ways
+            for new_side in new_sides:
+
+                # select tile to connect to
+                (row_offset, col_offset) = get_offsets_for_to_side(new_side)
+                to_tile = tile_grid[row + row_offset][col + col_offset]
+
+                # connect them
+                Tile.connect_from_to(new_side, from_tile, to_tile)
 
     # PRINT TILES
 
