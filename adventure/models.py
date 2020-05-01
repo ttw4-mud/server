@@ -126,6 +126,7 @@ class Tile(models.Model):
             setattr(self, f"to_{side}", to_tile)
 
         self.save()
+        return
 
     def connect_from(self, from_side, from_tile):
         """
@@ -142,6 +143,7 @@ class Tile(models.Model):
             setattr(self, f"to_{side}", from_tile)
 
         self.save()
+        return
 
     @staticmethod
     def connect_from_to(direction, from_tile, to_tile):
@@ -150,9 +152,7 @@ class Tile(models.Model):
         """
 
         from_tile.connect_to(direction, to_tile)
-        from_tile.save()
         to_tile.connect_from(direction, from_tile)
-        to_tile.save()
 
         return
 

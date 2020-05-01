@@ -13,6 +13,12 @@ def create_naive_grid_world(n_rows, n_cols):
 
     tile_grid = [[Tile() for c in range(n_cols)] for r in range(n_rows)]
 
+    # SAVE ALL TILES
+
+    for row in range(n_rows):
+        for col in range(n_cols):
+            tile_grid[row][col].save()
+
     # CONNECTION TILES
 
     for row in range(n_rows):
