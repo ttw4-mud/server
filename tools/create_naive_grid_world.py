@@ -38,7 +38,13 @@ def create_naive_grid_world(
             from_tile = tile_grid[row][col]
 
             # randomly choose to connect to adjacent tiles
-            new_sides = generate_new_sides(from_tile, row, col, (n_rows, n_cols))
+            new_sides = generate_new_sides(
+                from_tile,
+                row,
+                col,
+                (n_rows, n_cols),
+                odds=new_side_odds,
+            )
 
             # need to connect BOTH ways
             for new_side in new_sides:

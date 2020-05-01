@@ -45,6 +45,7 @@ def create_grid_world(
                 row,
                 col,
                 (n_rows, n_cols),
+                odds=new_side_odds,
                 min_new_sides=min_new_sides,
             )
 
